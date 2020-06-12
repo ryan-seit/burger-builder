@@ -10,3 +10,5 @@
 
 - Wrapping elements
 - Functional component
+
+## PropTypes and Pure Components
