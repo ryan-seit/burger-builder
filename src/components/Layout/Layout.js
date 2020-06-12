@@ -1,12 +1,13 @@
 import React from "react";
 
 import Aux from "../../hoc/Aux";
+import Toolbar from "../Navigation/Toolbar/Toolbar";
 import classes from "./Layout.module.css";
 
 const layout = props => (
 	// Wrap elements in the higher order component 'Aux'
 	<Aux>
-		<div>Toolbar, SideDrawer, Backdrop</div>
+		<Toolbar />
 		<main className={classes.Content}>{props.children}</main>
 	</Aux>
 );
