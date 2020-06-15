@@ -95,7 +95,7 @@ class BurgerBuilder extends Component {
 		this.setState({ loading: true });
 		const order = {
 			ingredients: this.state.ingredients,
-			// in a production environment, calculate the final price on the server to ensure code isn't manipulated
+			// in a production environment, calculate the final price on the server to ensure code isn't manipulated during POST
 			price: this.state.totalPrice,
 			customer: {
 				name: "Ryan Seit",

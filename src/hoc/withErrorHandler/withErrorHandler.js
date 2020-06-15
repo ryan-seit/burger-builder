@@ -12,12 +12,12 @@ const withErrorHandler = (WrappedComponent, axios) => {
 		// set axios.interceptors if the component will mount
 		componentWillMount() {
 			// clear any errors when sending a request
-			axios.interceptors.request.use(req => {
+			this.reqInterceptor = axios.interceptors.request.use(req => {
 				this.setState({ error: null });
 				return req;
 			});
 			// setup global interceptor to handle errors (1st argument is response, 2nd is the error)
-			axios.interceptors.response.use(
+			this.resInterceptor = axios.interceptors.response.use(
 				// return the response
 				res => res,
 				// set state.error to error
@@ -25,6 +25,12 @@ const withErrorHandler = (WrappedComponent, axios) => {
 					this.setState({ error: error });
 				}
 			);
+		}
+
+		// optimization: remove component interceptors when unmounted using .eject()
+		componentWillUnmount() {
+			axios.interceptors.request.eject(this.reqInterceptor);
+			axios.interceptors.response.eject(this.resInterceptor);
 		}
 
 		errorConfirmedHandler = () => {
