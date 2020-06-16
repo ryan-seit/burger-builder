@@ -21,7 +21,7 @@ class Checkout extends React.Component {
 			} else {
 				ingredients[param[0]] = +param[1];
 			}
-			console.log("CHECKOUT INGREDIENTS", ingredients);
+			console.log("CHECKOUT INGREDIENTS", ingredients, price);
 		}
 		this.setState({ ingredients: ingredients, totalPrice: price });
 	}

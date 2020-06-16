@@ -22,7 +22,7 @@ class ContactData extends React.Component {
 		const order = {
 			ingredients: this.props.ingredients,
 			// in a production environment, calculate the final price on the server to ensure code isn't manipulated during POST
-			price: this.props.totalPrice,
+			price: this.props.price,
 			customer: {
 				name: "Ryan Seit",
 				address: {
