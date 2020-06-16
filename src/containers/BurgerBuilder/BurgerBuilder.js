@@ -29,6 +29,7 @@ class BurgerBuilder extends Component {
 	};
 
 	componentDidMount() {
+		console.log("BURGER_BUILDER PROPS", this.props);
 		// GET request to server for ingredients
 		axios
 			.get("https://burger-builder-58b5a.firebaseio.com/ingredients.json")
@@ -91,32 +92,23 @@ class BurgerBuilder extends Component {
 		this.setState({ purchasing: false });
 	};
 
+	// Go to Checkout component before persisting to server
 	purchaseContinueHandler = () => {
-		this.setState({ loading: true });
-		const order = {
-			ingredients: this.state.ingredients,
-			// in a production environment, calculate the final price on the server to ensure code isn't manipulated during POST
-			price: this.state.totalPrice,
-			customer: {
-				name: "Ryan Seit",
-				address: {
-					street: "81 Prospect Street",
-					zipCode: "11211",
-					country: "USA",
-				},
-				email: "test@test.com",
-			},
-			deliveryMethod: "fastest",
-		};
-		// post to Firebase using the node name appended with '.json' for compatibility, second argument contains order data to be sent
-		axios
-			.post("/orders.json", order)
-			.then(response => {
-				this.setState({ loading: false, purchasing: false });
-			})
-			.catch(error => {
-				this.setState({ loading: false, purchasing: false });
-			});
+		// Create an array of strings with property name and value
+		const queryParams = [];
+		for (let i in this.state.ingredients) {
+			queryParams.push(
+				encodeURIComponent(i) +
+					"=" +
+					encodeURIComponent(this.state.ingredients[i])
+			); //=> ['bacon=1', 'cheese=1`, 'meat=1', 'salad=1']
+		}
+		queryParams.push("price=" + this.state.totalPrice);
+		const queryString = queryParams.join("&"); //=> bacon=1&cheese=1&meat=1&salad=1
+		this.props.history.push({
+			pathname: "/checkout",
+			search: "?" + queryString, // Send the query to '/checkout'
+		});
 	};
 
 	render() {
