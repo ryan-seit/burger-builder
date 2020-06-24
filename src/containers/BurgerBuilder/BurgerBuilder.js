@@ -12,16 +12,8 @@ import * as actionTypes from "../../store/actions";
 
 import axios from "../../axios-orders";
 
-// global const
-const INGREDIENT_PRICES = {
-	salad: 0.5,
-	bacon: 0.7,
-	cheese: 0.4,
-	meat: 1.3,
-};
 class BurgerBuilder extends Component {
 	state = {
-		totalPrice: 4, // global state
 		purchaseable: false, // global state
 		purchasing: false, // local UI state
 		// when true, show Spinner.js
@@ -51,38 +43,6 @@ class BurgerBuilder extends Component {
 				return sum + el;
 			}, 0);
 		this.setState({ purchaseable: sum > 0 });
-	};
-
-	addIngredientHandler = type => {
-		const oldCount = this.state.ingredients[type];
-		const updatedCount = oldCount + 1;
-		const updatedIngredients = {
-			...this.state.ingredients,
-		};
-		updatedIngredients[type] = updatedCount;
-		const priceAddition = INGREDIENT_PRICES[type];
-		const oldPrice = this.state.totalPrice;
-		const newPrice = oldPrice + priceAddition;
-		this.setState({ totalPrice: newPrice, ingredients: updatedIngredients });
-		this.updatePurchaseState(updatedIngredients);
-	};
-
-	removeIngredientHandler = type => {
-		const oldCount = this.state.ingredients[type];
-		// prevent item from being removed if it is not present
-		if (oldCount <= 0) {
-			return;
-		}
-		const updatedCount = oldCount - 1;
-		const updatedIngredients = {
-			...this.state.ingredients,
-		};
-		updatedIngredients[type] = updatedCount;
-		const priceDeduction = INGREDIENT_PRICES[type];
-		const oldPrice = this.state.totalPrice;
-		const newPrice = oldPrice - priceDeduction;
-		this.setState({ totalPrice: newPrice, ingredients: updatedIngredients });
-		this.updatePurchaseState(updatedIngredients);
 	};
 
 	purchaseHandler = () => {
@@ -141,7 +101,7 @@ class BurgerBuilder extends Component {
 						removeIngredient={this.props.onIngredientRemoved}
 						disabled={disabledInfo}
 						purchaseable={this.state.purchaseable}
-						price={this.state.totalPrice}
+						price={this.props.price}
 						ordered={this.purchaseHandler}
 					/>
 				</Aux>
@@ -151,7 +111,7 @@ class BurgerBuilder extends Component {
 					ingredients={this.props.ings}
 					purchaseCanceled={this.purchaseCancelHandler}
 					purchaseContinued={this.purchaseContinueHandler}
-					price={this.state.totalPrice}
+					price={this.props.price}
 				/>
 			);
 		}
@@ -179,6 +139,7 @@ const mapStateToProps = state => {
 	console.log(state.ingredients);
 	return {
 		ings: state.ingredients,
+		price: state.totalPrice,
 	};
 };
 

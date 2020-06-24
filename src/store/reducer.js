@@ -10,6 +10,14 @@ const initialState = {
 	totalPrice: 4, // global state
 };
 
+// global const
+const INGREDIENT_PRICES = {
+	salad: 0.5,
+	bacon: 0.7,
+	cheese: 0.4,
+	meat: 1.3,
+};
+
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
 		case actionTypes.ADD_INGREDIENT:
@@ -24,6 +32,7 @@ const reducer = (state = initialState, action) => {
 					// Get the number of the ingredients, add one, assign to the ingredient and assign to the copy we created
 					[action.ingredientName]: state.ingredients[action.ingredientName] + 1,
 				},
+				totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName],
 			};
 		case actionTypes.REMOVE_INGREDIENT:
 			return {
@@ -32,6 +41,7 @@ const reducer = (state = initialState, action) => {
 					...state.ingredients,
 					[action.ingredientName]: state.ingredients[action.ingredientName] - 1,
 				},
+				totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName],
 			};
 		default:
 			return state;
