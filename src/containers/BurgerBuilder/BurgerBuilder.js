@@ -19,13 +19,13 @@ const INGREDIENT_PRICES = {
 };
 class BurgerBuilder extends Component {
 	state = {
-		ingredients: null,
-		totalPrice: 4,
-		purchaseable: false,
-		purchasing: false,
+		ingredients: null, // global state
+		totalPrice: 4, // global state
+		purchaseable: false, // global state
+		purchasing: false, // local UI state
 		// when true, show Spinner.js
-		loading: false,
-		error: false,
+		loading: false, // local UI state
+		error: false, // local UI state
 	};
 
 	componentDidMount() {
