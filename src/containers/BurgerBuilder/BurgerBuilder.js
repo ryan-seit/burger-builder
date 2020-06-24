@@ -15,7 +15,7 @@ import axios from "../../axios-orders";
 class BurgerBuilder extends Component {
 	state = {
 		purchasing: false, // local UI state
-		// when true, show Spinner.js
+		// when 'loading' is true, show Spinner.js
 		loading: false, // local UI state
 		error: false, // local UI state
 	};
@@ -54,21 +54,7 @@ class BurgerBuilder extends Component {
 
 	// Go to Checkout component before persisting to server
 	purchaseContinueHandler = () => {
-		// Create an array of strings with property name and value
-		const queryParams = [];
-		for (let i in this.state.ingredients) {
-			queryParams.push(
-				encodeURIComponent(i) +
-					"=" +
-					encodeURIComponent(this.state.ingredients[i])
-			); //=> ['bacon=1', 'cheese=1`, 'meat=1', 'salad=1']
-		}
-		queryParams.push("price=" + this.state.totalPrice);
-		const queryString = queryParams.join("&"); //=> bacon=1&cheese=1&meat=1&salad=1
-		this.props.history.push({
-			pathname: "/checkout",
-			search: "?" + queryString, // Send the query to '/checkout'
-		});
+		this.props.history.push("/checkout");
 	};
 
 	render() {
