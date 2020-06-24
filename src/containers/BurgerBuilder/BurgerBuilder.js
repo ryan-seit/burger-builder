@@ -14,7 +14,6 @@ import axios from "../../axios-orders";
 
 class BurgerBuilder extends Component {
 	state = {
-		purchaseable: false, // global state
 		purchasing: false, // local UI state
 		// when true, show Spinner.js
 		loading: false, // local UI state
@@ -42,7 +41,7 @@ class BurgerBuilder extends Component {
 			.reduce((sum, el) => {
 				return sum + el;
 			}, 0);
-		this.setState({ purchaseable: sum > 0 });
+		return sum > 0;
 	};
 
 	purchaseHandler = () => {
@@ -100,7 +99,7 @@ class BurgerBuilder extends Component {
 						addIngredient={this.props.onIngredientAdded}
 						removeIngredient={this.props.onIngredientRemoved}
 						disabled={disabledInfo}
-						purchaseable={this.state.purchaseable}
+						purchaseable={this.updatePurchaseState(this.props.ings)}
 						price={this.props.price}
 						ordered={this.purchaseHandler}
 					/>
