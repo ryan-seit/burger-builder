@@ -9,28 +9,16 @@ import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import * as burgerBuilderActions from "../../store/actions/index"; // you can also omit index if you'd like
-
 import axios from "../../axios-orders";
 
 class BurgerBuilder extends Component {
 	state = {
 		purchasing: false, // local UI state
 		// when 'loading' is true, show Spinner.js
-		loading: false, // local UI state
-		error: false, // local UI state
 	};
 
 	componentDidMount() {
 		console.log("BURGER_BUILDER PROPS", this.props);
-		// // GET request to server for ingredients
-		// axios
-		// 	.get("https://burger-builder-58b5a.firebaseio.com/ingredients.json")
-		// 	.then(response => {
-		// 		this.setState({ ingredients: response.data });
-		// 	})
-		// 	.catch(error => {
-		// 		this.setState({ error: true });
-		// 	});
 	}
 
 	updatePurchaseState = ingredients => {
@@ -99,11 +87,6 @@ class BurgerBuilder extends Component {
 					price={this.props.price}
 				/>
 			);
-		}
-
-		// if loading is true, show spinner
-		if (this.state.loading) {
-			orderSummary = <Spinner />;
 		}
 
 		return (
